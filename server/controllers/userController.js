@@ -1,6 +1,8 @@
 const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const cookieToken = require("../utils/cookieToken");
+const sendResponse = require("../utils/sendResponse");
 
 exports.signup = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -9,10 +11,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const user = await User.create({ firstName, lastName, email, password });
 
-  // Generate a JWT for the newly created user
-  const token = user.generateToken();
-
-  res.status(201).json({ status: true, token, user });
+  cookieToken(user, 201, res, "User created successfully");
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -24,7 +23,18 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.comparePassword(password)))
     return next(new AppError("Invalid email or password", 401));
 
-  const token = user.generateToken();
+  cookieToken(user, 201, res, "User logged in successfully");
+});
 
-  res.status(200).json({ status: true, token, user });
+exports.profile = catchAsync(async (req, res, next) => {
+  sendResponse(req.user, 200, res, "User profile fetched successfully");
+});
+
+exports.logout = catchAsync(async (req, res, next) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  });
+  sendResponse(null, 200, res, "User logged out successfully");
 });

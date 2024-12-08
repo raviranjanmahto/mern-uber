@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const dbConnect = require("./config/dbConnect");
 const userRoutes = require("./routes/userRoutes");
@@ -11,6 +12,7 @@ const DATABASE_URI = process.env.DATABASE_URI;
 const app = express();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 
 dbConnect(DATABASE_URI);
