@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Uber clone in MERN stack",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raviranjanmahto/mern-uber.git"
+  },
+  "author": "Raviranjan Mahto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raviranjanmahto/mern-uber/issues"
+  },
+  "homepage": "https://github.com/raviranjanmahto/mern-uber#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.6",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.3"
+  }
+}
