@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const dbConnect = require("./config/dbConnect");
 const userRoutes = require("./routes/userRoutes");
+const driverRoutes = require("./routes/driverRoutes");
 const errorGlobalMiddleware = require("./middlewares/errorMiddleware");
 
 const DATABASE_URI = process.env.DATABASE_URI;
@@ -20,6 +21,7 @@ dbConnect(DATABASE_URI);
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/drivers", driverRoutes);
 
 app.all("*", (req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404))
